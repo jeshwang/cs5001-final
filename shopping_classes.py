@@ -114,7 +114,7 @@ class ShoppingList:
         you can use the optional typing syntax to indicate that 
         it can return None. """
         for i in range(0, len(self.__items)):
-            if self.__items[i].short_name.lower() == short_name.lower():
+            if self.__items[i].name.lower() == short_name.lower():
                 return self.__items[i]
         return None
 

@@ -46,7 +46,7 @@ def load_item(filename: str) -> Dict[str, str]:
     try:
         with open(filename, "r") as file:
             for line in file:
-                key = line[:line.index(":")]
+                key = line[:line.index(":")]  # get key
                 val = line[line.index(":")+1:].strip('\n')
                 my_list[key] = val
         return my_list
@@ -87,14 +87,20 @@ def correct_spelling(raw_list: str, d: Dict[str, str]) -> str:
         raw_list (str): long string from audio transcription
         d (Dict[str, str]): dictionary with keys representing
             common mispellings and values representing the relevant
-            word spelled correctly
+            word spelled correctly. There can be multiple keys
+            with the same value, but there are no multiple values
+            with the same key.
     Returns:
         str: long string with correct spellings
     """
-    for key, value in d.items():
-        raw_list = raw_list.replace(key, value)
-    
-    return raw_list
+    if type(raw_list) != str:
+        raise TypeError('raw_list is not a string.')
+    elif type(d) != dict:
+        raise TypeError('d is not a dictionary type.')
+    else:
+        for key, value in d.items():
+            raw_list = raw_list.replace(key, value)
+        return raw_list
 
 
 def split_string(raw: str) -> list:
@@ -111,13 +117,16 @@ def split_string(raw: str) -> list:
     Return:
         list of strings: substrings containing info about each item
     """
-    # split list by "comma" or "coma"
-    raw_list = raw.replace('coma','comma').split('comma')
+    if type(raw) != str:
+        raise TypeError('Argument must be a string.')
+    else:
+        # split list by "comma" or "coma"
+        raw_list = raw.replace('coma','comma').split('comma')
 
-    # for each element in list, remove extra spaces
-    raw_list = ["".join(x.strip()) for x in raw_list]
+        # for each element in list, remove extra spaces
+        raw_list = ["".join(x.strip()) for x in raw_list]
 
-    return raw_list
+        return raw_list
 
 
 def save_as_shopping_list(raw_list: list[str]) -> ShoppingList:
@@ -142,25 +151,28 @@ def save_as_shopping_list(raw_list: list[str]) -> ShoppingList:
         each ListItem reprents an item, its quantity, and unit of 
         measurement (when relevant).
     """
-    # create ShoppingList object
-    my_shopping_list = ShoppingList()
+    if type(raw_list) != list:
+        raise TypeError('Argument is not a list.')
+    else:
+        # create ShoppingList object
+        my_shopping_list = ShoppingList()
 
-    # for every string in raw_list, turn string into a ListItem, and
-    # add ListItem to the ShoppingList
-    for i in raw_list:
-        item_quant = int(i[0])
-        words = i[2:]
-        if " of " in words:
-            split_words = words.split(" of ")
-            item_unit = split_words[0].strip()
-            item_name = split_words[1].strip()
-        else:
-            item_unit = ''
-            item_name = words.strip()
-        # create ListItem
-        my_item = ListItem(name=item_name, unit=item_unit, quantity=item_quant)
+        # for every string in raw_list, turn string into a ListItem, and
         # add ListItem to the ShoppingList
-        my_shopping_list.add_item(item=my_item)
-    
-    return my_shopping_list
+        for i in raw_list:
+            item_quant = int(i[0])  # extract quantity
+            words = i[2:]
+            if " of " in words:
+                split_words = words.split(" of ")
+                item_unit = split_words[0].strip()  # extract unit
+                item_name = split_words[1].strip()  # extract name
+            else:
+                item_unit = ''
+                item_name = words.strip()
+            # create ListItem
+            my_item = ListItem(name=item_name, unit=item_unit, quantity=item_quant)
+            # add ListItem to the ShoppingList
+            my_shopping_list.add_item(item=my_item)
+
+        return my_shopping_list
  

@@ -1,0 +1,109 @@
+"""
+Final
+===========================
+Student:  Jessica Hwang
+Semester: Spring 2023
+===========================
+Testing ShoppingList class from shopping_classes.py
+"""
+from typing import Optional
+import unittest
+from shopping_classes import ListItem, ShoppingList
+
+
+class TestListItem(unittest.TestCase):
+    def test_items(self):
+        """Tests the items property"""
+        shop = ShoppingList('test')
+        self.assertEqual(shop.items, [])
+
+
+    def test_size(self):
+        """Tests size"""
+        shop_1 = ShoppingList('test')
+        self.assertEqual(shop_1.size(), 0)  # remember parentheses!
+
+        shop_2 = ShoppingList('test', ['a', 'b'])
+        self.assertEqual(shop_2.size(), 2)
+
+
+    def test_add_item(self):
+        """Tests add_item"""
+        shop = ShoppingList('test')
+        item = ListItem('test item')
+        shop.add_item(item)
+        self.assertEqual(shop.size(), 1)
+    
+
+    def test_add_item_raises_type_error(self) -> None:
+        """Tests if add_item method raises a TypeError"""
+        shop = ShoppingList("test list")
+        with self.assertRaises(TypeError):
+            shop.add_item("testing with a string")
+
+
+    def test_remove_item(self):
+            """Tests remove_item"""
+            # create shopping list
+            shop = ShoppingList('test')
+            # create items
+            item_1 = ListItem('test item 1')
+            item_2 = ListItem('test item 2')
+
+            # add items onto shopping list
+            shop.add_item(item_1)
+            shop.add_item(item_2)
+
+            # remove item_2
+            shop.remove_item(item_2)
+            self.assertEqual(shop.size(), 1)
+
+
+    def test_get_item(self):
+        """Tests get_item"""
+        # create shopping list
+        shop = ShoppingList('test')
+
+        # create items
+        item_1 = ListItem('test item 1')
+        item_2 = ListItem('test item 2')
+        item_3 = ListItem('test item 3')
+
+        # add items onto shopping list
+        shop.add_item(item_1)
+        shop.add_item(item_2)
+        shop.add_item(item_3)
+
+        self.assertEqual(shop.get_item(0), item_1)
+        self.assertEqual(shop.get_item(1), item_2)
+        self.assertEqual(shop.get_item(2), item_3)
+
+
+    def test_find_item(self):
+        """Tests find_item"""
+        # create shopping list
+        shop = ShoppingList('test')
+
+        # create items
+        item_1 = ListItem('test item 1')
+        item_2 = ListItem('test item 2')
+        item_3 = ListItem('test item 3')
+
+        # add items onto shopping list
+        shop.add_item(item_1)
+        shop.add_item(item_2)
+        shop.add_item(item_3)
+
+        self.assertEqual(shop.find_item("test item 1"), item_1)
+        self.assertEqual(shop.find_item("test item 3"), item_3)
+        self.assertEqual(shop.find_item("test item 4"), None)
+
+
+    def test___str__(self):
+        """Tests __str__(self)"""
+        shop = ShoppingList()
+        self.assertEqual(shop.__str__(), "New List (0 items)")
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)

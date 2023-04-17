@@ -1,0 +1,62 @@
+"""
+Final
+===========================
+Student:  Jessica Hwang
+Semester: Spring 2023
+===========================
+Testing ShoppingList class from shopping_classes.py
+"""
+import unittest
+from shopping_classes import save_list_to_file
+from shopping_classes import ListItem, ShoppingList
+
+
+def compare_files(filename1, filename2):
+   """Checks if contents of two files are the same.
+    Helper function for testing save_list_to_file().
+
+   Args:
+        filename1 (str): first file
+        filename2 (str): second file
+
+    Returns:
+        boolean: True if contents differ
+    """
+   with open(filename1) as file1, open(filename2) as file2:
+      contents_one = file1.read()
+      contents_two = file2.read()
+      if contents_one != contents_two:
+         print("failed test!")
+         return True
+   return False
+
+
+def test_save_list_to_file():
+    """Tests save_list_to_file()"""
+    # create shopping list
+    shop = ShoppingList('test_shop')
+
+    # create items
+    item_1 = ListItem(name='test item 1', unit='package')
+    item_2 = ListItem('test item 2', unit='bag', quantity=3)
+    item_3 = ListItem('test item 3')
+
+    # add items onto shopping list
+    shop.add_item(item_1)
+    shop.add_item(item_2)
+    shop.add_item(item_3)
+
+    save_list_to_file(shop)  # outputs test_shop.txt
+
+
+def main():
+    counter = 0
+    test_save_list_to_file()
+    if compare_files("test_shop.txt", "test_shop_correct.txt"):
+        counter += 1
+
+    print(f"Failed: {counter} tests.")
+
+
+if __name__ == '__main__':
+    main()

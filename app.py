@@ -26,6 +26,11 @@ def transcribe(filename: str) -> str:
     uses the speech_recognition package to transcribe
     the audio.
 
+    Assumptions:
+        User says "start" to indicate the start of the list,
+        "stop" to indicate the end of the list, and "comma"
+        to indicate the end of a list item and the beginning
+        of a new one.
     Args:
         filename(str): name of .wav file. Must include
             '.wav' at the end.
@@ -35,13 +40,14 @@ def transcribe(filename: str) -> str:
     """
     # use the audio file as the audio source
     # the Recognizer class recognizes speech!
-    r = sr.Recognizer()
+    r = sr.Recognizer()  # create Recognizer instance
     try:
         grocery = sr.AudioFile(filename)
         with grocery as source:
             audio = r.record(source)
 
-        # Use Google API
+        # Use Google API to return transcription of audio
+        # Returns in string type
         raw = r.recognize_google(audio).lower()
         return raw
     except FileNotFoundError:
@@ -58,6 +64,7 @@ def main():
     # Clip the transcription using keywords.
     # 'start': indicates start of list 
     # 'stop': indicates end of list.
+    # 'comma': indicates the end of a list item
     raw = s.find_between(raw)
 
     # Correct mispellings in transcript using dictionaries:
@@ -66,10 +73,12 @@ def main():
     # Note that these dictionaries are meant to be edited over time as the more you
     # use the API with new recordings and mispellings that you'd like to correct.
     quantity = s.load_item("quantity.dat")  
-    item = s.load_item("item.dat")  
+    item = s.load_item("item.dat")
+    unit = s.load_item("unit.dat")  
 
     correct = s.correct_spelling(raw, item)
     correct = s.correct_spelling(correct, quantity)
+    correct = s.correct_spelling(correct, unit)
     print(f"Transcript after correcting mispellings: {correct}")
 
     correct_list = s.split_string(correct)
@@ -78,7 +87,7 @@ def main():
     # save list of strings into a ShoppingList
     shopping_list = s.save_as_shopping_list(correct_list)
     print(f"Name and total # of items of the resulting ShoppingList: {shopping_list.__str__()}")
-
+    print("Check out your new grocery list in your file explorer!")
     # save ShoppingList to a .txt file
     c.save_list_to_file(shopping_list)
 

@@ -1,0 +1,4 @@
+test_shop (3 items)
+1x package of test item 1
+3x bags of test item 2
+1x test item 3
