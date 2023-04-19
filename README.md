@@ -1,10 +1,10 @@
 # Final Project: Grocery List
-===========================
-**Author**: Jessica Hwang
-**Course**: CS 5001 & 5003 - Intensive Foundations of Computer Science
-**Program**: Align MS in CS, Khoury College of Computer Sciences at Northeastern University
-**Instructors**: Dr. Albert Lionelle, Dr. Mark Miller
-**Semester**: Spring 2023
+
+- **Author**: Jessica Hwang
+- **Course**: CS 5001 & 5003 - Intensive Foundations of Computer Science
+- **Program**: Align MS in CS, Khoury College of Computer Sciences at Northeastern University
+- **Instructors**: Dr. Albert Lionelle, Dr. Mark Miller
+- **Semester**: Spring 2023
 
 
 This is a program in Python 3 that transforms an audio recording of grocery list into a simple, text version of that list. The audio recording input is in the form of a .wav file. The output is in the form of a .txt file.
@@ -66,4 +66,4 @@ The .dat and .txt files prefixed with "test_" are used by these .py files to run
 
 ## References
 - CS5001 Lectures, Khoury College of Computer Sciences at Northeastern University
-- Amos, David. []"The Ultimate Guide To Speech Recognition With Python"](https://realpython.com/python-speech-recognition/), accessed April 15, 2023.
+- Amos, David. ["The Ultimate Guide To Speech Recognition With Python"](https://realpython.com/python-speech-recognition/), accessed April 15, 2023.
