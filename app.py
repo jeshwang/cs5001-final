@@ -69,6 +69,7 @@ def main():
     # Correct mispellings in transcript using dictionaries:
     #   dict with common mispellings of numbers indicating quantity of item
     #   dict with common mispellings of item names
+    #   dict with common spellings of unit measures
     # Note that these dictionaries are meant to be edited over time as the more you
     # use the API with new recordings and mispellings that you'd like to correct.
     quantity = s.load_item("quantity.dat")  
@@ -81,14 +82,16 @@ def main():
     print(f"Transcript after correcting mispellings: {correct}")
 
     correct_list = s.split_string(correct)
-    print(f"Split transcript into a list of strings, where each entry represents an item: {correct_list}")
+    print(f"Transcript as list of strings. Each index represents an item and its details: {correct_list}")
 
     # save list of strings into a ShoppingList
+    # default name of ShoppingList is "New List"
     shopping_list = s.save_as_shopping_list(correct_list)
-    print(f"Name and total # of items of the resulting ShoppingList: {shopping_list.__str__()}")
-    print("Check out your new grocery list in your file explorer!")
+    print(f"ShoppingList details: {shopping_list.__str__()}")
+    
     # save ShoppingList to a .txt file
     c.save_list_to_file(shopping_list)
+    print("Check out your new grocery list in your file explorer!")
 
 
 if __name__ == "__main__":
